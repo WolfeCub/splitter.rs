@@ -1,0 +1,12 @@
+syntax = "proto3";
+package splitter;
+
+message CreateAccountRequest {
+}
+
+message CreateAccountResponse {
+}
+
+service Splitter {
+    rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
+}
