@@ -1,4 +1,8 @@
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    tonic_build::compile_protos("../proto/splitter.proto")?;
+    println!("cargo:rerun-if-changed=migrations");
+    tonic_build::configure()
+        .type_attribute(".", "#[derive(sqlx::FromRow)]")
+        .compile(&["../proto/splitter.proto"], &["../proto"])
+        .unwrap();
     Ok(())
 }

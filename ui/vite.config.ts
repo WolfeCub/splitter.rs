@@ -5,7 +5,8 @@ import { execSync } from 'child_process'
 const protoPlugin: PluginOption = {
     name: 'proto-plugin',
     buildStart(_options) {
-        execSync('npx protoc --ts_out src/proto --proto_path ../proto ../proto/splitter.proto')
+        // execSync('npx protoc --ts_out src/proto --proto_path ../proto ../proto/splitter.proto')
+        execSync('pnpm exec protoc --ts_out src/proto --proto_path ../proto ../proto/splitter.proto')
     },
 };
 

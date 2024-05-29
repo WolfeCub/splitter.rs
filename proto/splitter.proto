@@ -1,12 +1,39 @@
 syntax = "proto3";
 package splitter;
 
+//
+// Types
+//
+
+message Event {
+    optional int32 id = 1;
+    optional float amount = 2;
+    optional string name = 3;
+}
+
+//
+// Requests & Responses
+//
 message CreateAccountRequest {
 }
 
 message CreateAccountResponse {
 }
 
+message UpsertEventRequest {
+    optional Event event = 1;
+}
+
+message UpsertEventResponse {
+}
+
+message GetAllEventsRequest {}
+message GetAllEventsResponse {
+    repeated Event events = 1;
+}
+
 service Splitter {
     rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
+    rpc UpsertEvent(UpsertEventRequest) returns (UpsertEventResponse);
+    rpc GetAllEvents(GetAllEventsRequest) returns (GetAllEventsResponse);
 }

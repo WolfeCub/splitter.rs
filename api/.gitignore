@@ -1,2 +1,3 @@
 /target
-speedb
+*.db
+*.sqlite

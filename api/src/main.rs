@@ -1,19 +1,25 @@
 mod rpc;
-use rpc::*;
+mod database;
 
-use surrealdb::{engine::local::SpeeDb, Surreal};
+use rpc::*;
+use crate::database::Db;
+
+use sqlx::{sqlite::SqliteConnectOptions, SqlitePool};
 use tonic::transport::Server;
+
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    // Create database connection
-    let db = Surreal::new::<SpeeDb>("./speedb").await?;
-    // Select a specific namespace / database
-    db.use_ns("test").use_db("test").await?;
+    let pool_options = SqliteConnectOptions::new()
+        .filename("./sqlite.db")
+        .create_if_missing(true);
+    let pool = SqlitePool::connect_with(pool_options).await?;
+    sqlx::migrate!().run(&pool).await?;
+
+    let service = SplitterRpc::new(Db::new(pool));
 
     let addr = "127.0.0.1:3000".parse().unwrap();
-    let service = SplitterRpc::new();
-
+    println!("Serving on {}", addr);
     Server::builder()
         // GrpcWeb is over http1 so we must enable it.
         .accept_http1(true)

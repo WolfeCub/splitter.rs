@@ -1,27 +1,8 @@
-import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport"
-import { useEffect } from "react"
-import { SplitterClient } from "./proto/splitter.client";
+import { FC } from 'react';
+import { PageContent } from './PageContent';
 
-export const App = () => {
-    useEffect(() => {
-        let transport = new GrpcWebFetchTransport({
-            baseUrl: "http://localhost:3000"
-        });
-
-        let client = new SplitterClient(transport);
-
-        const blah = async () => {
-            const response = await client.createAccount({});
-            console.log(response);
-        }
-        blah();
-
-    }, []);
-
+export const App: FC = () => {
     return (
-        <>
-            <div>Hello</div>
-        </>
-    )
+        <PageContent />
+    );
 }
-
