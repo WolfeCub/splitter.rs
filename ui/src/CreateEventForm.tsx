@@ -3,7 +3,11 @@ import { useForm } from "@mantine/form";
 import { FC } from "react";
 import { client } from "./main";
 
-export const CreateEventForm: FC = () => {
+interface Props {
+    close: () => void
+}
+
+export const CreateEventForm: FC<Props> = ({close}) => {
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
@@ -20,6 +24,7 @@ export const CreateEventForm: FC = () => {
                 amount: formVals.amount,
             },
         });
+        close();
     };
 
     return (
